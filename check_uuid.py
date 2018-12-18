@@ -5,9 +5,9 @@ file_input = open('uuid.json', 'r')
 
 
 from pymongo import MongoClient
-client = MongoClient('mongo-gce', 201)
+client = MongoClient('mongo-gce-server', 2018)
 
-db = client['client']
+db = client['client-name']
 users = db.user
 import pprint
 
