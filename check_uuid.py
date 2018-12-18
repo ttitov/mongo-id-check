@@ -1,20 +1,33 @@
 
-#!python3
-
+#!python
 
 file_input = open('uuid.json', 'r')
 
 
-set1 = set()
-set2 = set()
+from pymongo import MongoClient
+client = MongoClient('mongo-gce', 201)
+
+db = client['dac-yieldone']
+users = db.user
+import pprint
+
+ids = []
+count = 0
+
 def check_uuid():
-	for line in f1:
-		set1.add(line.strip())
-	for line1 in f2:
-		set2.add(line1.strip())
-	for line2 in set1 - set2:
-		f3.write(line2 + "\n")
-			
+	lines_id = file_input.readlines()
+	for i in lines_id:
+		if pprint.pprint(users.find_one(i)):
+			ids.append(i)
+			count = count + 1
+	with open('uuid_results.json', 'w') as file_output:
+		for item in ids:
+			file_output.write('%s\n' % item)
 
+	n = lines_id.__len__()
+	ls = []
+	ls.append(n)
+	ls.append(count)
+	print(ls) 
 
-check_ip()
+check_uuid()
